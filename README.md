@@ -1,4 +1,4 @@
-Aquí tienes el README.md reestructurado y pulido exactamente con las especificaciones de tus scripts finales.   He eliminado la sección de preguntas de negocio, pasé directamente a las instrucciones de ejecución y mejoré visualmente el diagrama del esquema estrella (añadiendo llaves primarias/foráneas explícitas y descripciones más limpias que coinciden al 100% con tu vista final de Gold).   Copia y pega este bloque directamente en tu repositorio de GitHub:Markdown# 📊 Data Warehouse Comercial: Arquitectura Medallion
+# 📊 Data Warehouse Comercial: Arquitectura Medallion
 
 Bienvenido a la documentación del **Data Warehouse Comercial** desarrollado en **SQL Server**. Este proyecto implementa un flujo automatizado ETL (Extracción, Transformación y Carga) utilizando una arquitectura de mejores prácticas **Medallion (Bronze ➔ Silver ➔ Gold)**. 
 
