@@ -10,7 +10,7 @@ El objetivo principal es procesar una fuente de datos transaccional plana (CSV),
 
 El reporte de ventas de la empresa se extrae inicialmente como un archivo plano desnormalizado que contiene información transaccional, demográfica del cliente y especificaciones del producto en una sola sábana de datos. Esto genera:
 * **Redundancia de Datos:** Atributos de clientes y productos repetidos en miles de transacciones.
-* **Problemas de Calidad:** Inconsistencias en formatos de fechas, montos en cero y nomenclaturas de países dispares.
+* **Problemas de Calidad:** Inconsistencias en formatos de fechas, montos nulos y nomenclaturas de países dispares.
 * **Bajo Rendimiento Analítico:** Lentitud al intentar segmentar dimensiones clave directamente desde un archivo plano.
 
 **Solución Implementada:** Un flujo ETL orquestado mediante Procedimientos Almacenados que consolida, audita y modela los datos en un Data Warehouse robusto.
@@ -27,7 +27,8 @@ El proyecto sigue una estrategia de capas progresivas para garantizar la trazabi
 
 2. **🥈 Capa Silver (Limpieza y Normalización):** 
    * Transforma los datos crudos, aplica _casting_ a los tipos correctos (`DATE`, `INT`, `FLOAT`) y resuelve nulos o errores aritméticos.
-   * Se normaliza la tabla plana en tres entidades independientes y se agrega una marca de tiempo de auditoría (`dwh_fecha_carga`).
+   * Normaliza la tabla plana en tres entidades independientes y agrega una marca de tiempo de auditoría (`dwh_fecha_carga`). 
+   * **Lógica Avanzada:** La deduplicación de ventas utiliza una **llave compuesta** (`id_transaccion` + `id_producto`) para evitar la pérdida de datos en tickets que contienen múltiples artículos.
    * **Entidades:** `silver.clientes`, `silver.productos`, `silver.ventas_detalle`.
 
 3. **🥇 Capa Gold (Modelo Dimensional):** 
@@ -39,7 +40,7 @@ El proyecto sigue una estrategia de capas progresivas para garantizar la trazabi
 
 ## 📐 3. Diagrama del Modelo de Datos Final (Esquema Estrella)
 
-El siguiente modelo entidad-relación representa la estructura final disponible en la capa Gold, diseñada específicamente para análisis multidimensional:
+El siguiente modelo entidad-relación representa la estructura final disponible en la capa Gold, diseñada específicamente para análisis multidimensional. La tabla de hechos utiliza una llave primaria compuesta para soportar carritos de compras reales.
 
 ```mermaid
 erDiagram
