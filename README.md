@@ -22,7 +22,7 @@ El reporte de ventas de la empresa se extrae inicialmente como un archivo plano 
 El proyecto sigue una estrategia de capas progresivas para garantizar la trazabilidad y calidad del dato:
 
 1. **🥉 Capa Bronze (Área de Ingesta):** 
-   * Extrae los datos exactos del archivo `ventas.csv` sin alteraciones usando `BULK INSERT`.
+   * Extrae los datos exactos del archivo `Ventas.csv` sin alteraciones usando `BULK INSERT`.
    * **Entidad:** `bronze.ventas` (Todos los campos se importan como `NVARCHAR` para evitar interrupciones por errores de origen).
 
 2. **🥈 Capa Silver (Limpieza y Normalización):** 
@@ -86,7 +86,7 @@ erDiagram
 
 ## 🚀 4. Instrucciones de Ejecución (Despliegue)
 
-Para replicar este proyecto en tu entorno local de SQL Server, asegúrate de tener descargado el archivo `ventas.csv`. **Importante:** Debes modificar la ruta del archivo dentro del script de carga para que apunte a la ubicación exacta de tu computadora. 
+Para replicar este proyecto en tu entorno local de SQL Server, asegúrate de tener descargado el archivo `Ventas.csv`. **Importante:** Debes modificar la ruta del archivo dentro del script de carga para que apunte a la ubicación exacta de tu computadora. 
 
 Ejecuta los scripts en el siguiente orden secuencial:
 
@@ -95,7 +95,7 @@ Ejecuta los scripts en el siguiente orden secuencial:
 
 ### Fase 2: Ingesta Cruda (Bronze)
 2. Ejecutar `DDL_Bronze.sql` para crear la estructura de la tabla temporal.
-3. Abrir el script `SP_Load_Bronze.sql` y **reemplazar la ruta del archivo** en la instrucción `BULK INSERT` por tu ruta local (ej. `C:\Tu\Ruta\Propia\ventas.csv`). Una vez modificado, ejecuta el script para crear el procedimiento almacenado y luego invócalo con: `EXEC bronze.load_bronze;`
+3. Abrir el script `SP_Load_Bronze.sql` y **reemplazar la ruta del archivo** en la instrucción `BULK INSERT` por tu ruta local (ej. `C:\Tu\Ruta\Propia\Ventas.csv`). Una vez modificado, ejecuta el script para crear el procedimiento almacenado y luego invócalo con: `EXEC bronze.load_bronze;`
 
 ### Fase 3: Limpieza y Transformación (Silver)
 4. Ejecutar `ddl_silver.sql` para crear las tres tablas físicas normalizadas.
