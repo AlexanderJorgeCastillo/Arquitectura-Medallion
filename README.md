@@ -43,8 +43,8 @@ El siguiente modelo entidad-relación representa la estructura final disponible 
 
 ```mermaid
 erDiagram
-    gold_dim_clientes ||--o{ gold_fact_ventas : "Filtra compras"
-    gold_dim_productos ||--o{ gold_fact_ventas : "Filtra catálogo"
+    gold_dim_clientes ||--o{ gold_fact_ventas : ""
+    gold_dim_productos ||--o{ gold_fact_ventas : ""
 
     gold_dim_clientes {
         int clave_cliente PK "Clave Subrogada"
@@ -69,8 +69,8 @@ erDiagram
     }
 
     gold_fact_ventas {
-        nvarchar id_transaccion "Ticket o Número de Orden"
-        int clave_producto FK "Llave foránea a Productos"
+        nvarchar id_transaccion PK "Ticket o Número de Orden"
+        int clave_producto PK,FK "Llave foránea a Productos"
         int clave_cliente FK "Llave foránea a Clientes"
         date fecha_venta "Fecha efectiva de transacción"
         date fecha_envio "Fecha de despacho (Admite Nulos)"
@@ -93,12 +93,12 @@ Ejecuta los scripts en el siguiente orden secuencial:
 1. Ejecutar el script base de inicialización (`Database.sql`) para crear la base de datos `DataWarehouse` y los respectivos esquemas (`bronze`, `silver`, `gold`).
 
 ### Fase 2: Ingesta Cruda (Bronze)
-2. Ejecutar **`DDL_Bronze.sql`** para crear la estructura de la tabla temporal.
-3. Abrir el script **`SP_Load_Bronze.sql`** y **reemplazar la ruta del archivo** en la instrucción `BULK INSERT` por tu ruta local (ej. `C:\Tu\Ruta\Propia\ventas.csv`). Una vez modificado, ejecuta el script para crear el procedimiento almacenado y luego invócalo con: **`EXEC bronze.load_bronze;**`
+2. Ejecutar `DDL_Bronze.sql` para crear la estructura de la tabla temporal.
+3. Abrir el script `SP_Load_Bronze.sql` y **reemplazar la ruta del archivo** en la instrucción `BULK INSERT` por tu ruta local (ej. `C:\Tu\Ruta\Propia\ventas.csv`). Una vez modificado, ejecuta el script para crear el procedimiento almacenado y luego invócalo con: `EXEC bronze.load_bronze;`
 
 ### Fase 3: Limpieza y Transformación (Silver)
-4. Ejecutar **`ddl_silver.sql**` para crear las tres tablas físicas normalizadas.
-5. Ejecutar **`proc_load_silver.sql**` para crear el motor de limpieza y luego invocarlo con **`EXEC silver.load_silver;**`.
+4. Ejecutar `ddl_silver.sql` para crear las tres tablas físicas normalizadas.
+5. Ejecutar `proc_load_silver.sql` para crear el motor de limpieza y luego invocarlo con `EXEC silver.load_silver;`.
 
 ### Fase 4: Modelado Analítico (Gold)
-Ejecutar **`ddl_gold.sql**` para desplegar el Esquema Estrella mediante Vistas Analíticas, dejándolas listas para la conexión directa con Power BI.
+6. Ejecutar `ddl_gold.sql` para desplegar el Esquema Estrella mediante Vistas Analíticas, dejándolas listas para la conexión directa con Power BI.
